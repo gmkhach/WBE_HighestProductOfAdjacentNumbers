@@ -25,7 +25,10 @@ namespace HighestProductOfAdjacentNumbers
                     {
                         arr[i] = Convert.ToInt32(input[i]);
                     }
-                    Console.WriteLine($"\nThe adjacent elements with the highest product of {HighestAdjacentProduct(arr)[2]} are {HighestAdjacentProduct(arr)[0]} and {HighestAdjacentProduct(arr)[1]}");
+                    for (int i = 0; i < HighestAdjacentProduct(arr).Count(); i += 3)
+                    {
+                        Console.WriteLine($"\nThe adjacent elements with the highest product of {HighestAdjacentProduct(arr)[i + 2]} are {HighestAdjacentProduct(arr)[i]} and {HighestAdjacentProduct(arr)[i + 1]}");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -37,16 +40,23 @@ namespace HighestProductOfAdjacentNumbers
             } while (true);
         }
 
-        static int[] HighestAdjacentProduct(int[] arr)
+        static List<int> HighestAdjacentProduct(int[] arr)
         {
-            int[] output = { arr[0], arr[1], arr[0] * arr[1] };
+            List<int> output = new List<int> { arr[0], arr[1], arr[0] * arr[1] };
             for (int i = 1; i < arr.Length - 1; i++)
             {
                 if (arr[i] * arr[i + 1] > output[2])
                 {
+                    output.Clear();
                     output[0] = arr[i];
                     output[1] = arr[i + 1];
                     output[2] = arr[i] * arr[i + 1];
+                }
+                if (arr[i] * arr[i + 1] == output[2])
+                {
+                    output.Add(arr[i]);
+                    output.Add(arr[i + 1]);
+                    output.Add(arr[i] * arr[i + 1]);
                 }
             }
             return output;
